@@ -77,17 +77,17 @@ jobs:
       
           # If you put the current history inside allure-results, Allure can generate a report that will merge history files
           - name: Download current history files from S3
-            run: aws s3 cp s3://allure-history-ad/history/ ./merged-allure-results/history --recursive
+            run: aws s3 cp s3://martioli/history/ ./merged-allure-results/history --recursive
       
           - name: Generate Allure report 
             run: npx allure generate ./merged-allure-results
       
           # Copy the history to the same S3 bucket to overwrite the previous history files with updated history
           - name: Backup the history with the latest data
-            run: aws s3 cp ./allure-report/history s3://allure-history-ad/history/  --recursive
+            run: aws s3 cp ./allure-report/history s3://martioli/history/  --recursive
       
           - name: Deploy html report to S3
-            run: aws s3 cp ./allure-report s3://allure-history-ad/report/${{ steps.timestampid.outputs.timestamp }}/ --recursive
+            run: aws s3 cp ./allure-report s3://martioli/report/${{ steps.timestampid.outputs.timestamp }}/ --recursive
       
           - name: Write URL in summary
-            run: echo "### Test results - http://allure-history-ad.s3-website.eu-north-1.amazonaws.com/report/${{ steps.timestampid.outputs.timestamp }}/index.html" >> $GITHUB_STEP_SUMMARY
+            run: echo "### Test results - http://martioli.s3-website.us-east-1.amazonaws.com/report/${{ steps.timestampid.outputs.timestamp }}/index.html" >> $GITHUB_STEP_SUMMARY
